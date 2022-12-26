@@ -3,7 +3,7 @@ def union(p,q):
     id[p]=q
     
 def find(p,q):
-    return id[p]==q
+    return id[p]==id[q]
     
 
 id=[]
