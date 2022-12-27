@@ -1,0 +1,70 @@
+
+
+from collections import defaultdict
+
+class Graph:
+    def __init__(self,vertices):
+        self.V=vertices
+        self.graph=defaultdict(list)
+    
+    def addEdge(self,u,v):
+        self.graph[u].append(v)
+    
+
+
+def root(i,id):
+    while i!=id[i]:
+        i=id[i]
+    return i
+        
+def union(p,q,id):
+    proot=root(p,id)
+    qroot=root(q,id)
+    id[proot]=id[qroot]
+    
+def find(p,q,id):
+    return root(p,id)==root(q,id)
+    
+    
+ 
+def isCyclic(graph):
+    id=[]
+    for i in range(0,len(graph)+1):
+        id.append(i)
+        #print(id)
+    for u in graph:
+        for v in graph[u]:
+            if find(u,v,id):
+                return True
+            union(u,v,id)
+            
+g={0: [1], 1: [2], 2: [0]}
+print("test isCycle "+str(isCyclic(g)))
+
+def Kruskal(edges):
+    mst=defaultdict(list)
+    for u,v in edges:
+        #print(u,v)
+        #print(mst)
+        #print(isCyclic(mst))
+        if isCyclic(mst)==True:
+            continue
+        else:
+            mst[u].append(v)
+        
+    return mst
+                
+
+
+#assume edges are in sorted order of weight
+
+edges=[[0, 1],[1, 2],[2, 3]]
+
+print("Kruskal's output without cycle")
+print(Kruskal(edges))
+        
+#purpousefully adding a cycle
+edges=[[0, 1],[1, 2],[2, 0]]
+
+print("Kruskal's output with cycle")
+print(Kruskal(edges))
